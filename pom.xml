@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.alfresco</groupId>
+    <artifactId>alfresco-text-gen</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>4.12</junit.version>
+        <spring.version>3.2.10.RELEASE</spring.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+ 
+    <scm>
+        <url>https://github.com/AlfrescoBenchmark/alfresco-text-gen</url>
+        <connection>scm:git:https://github.com/AlfrescoBenchmark/alfresco-text-gen.git</connection>
+     </scm>
+    
+    <distributionManagement>
+        <repository>
+            <id>alfresco-internal</id>
+            <name>Alfresco Releases Repository</name>
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>alfresco-internal-snapshots</id>
+            <name>Alfresco Snapshots Repository </name>
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+        </plugins>
+    </build>
+</project>
