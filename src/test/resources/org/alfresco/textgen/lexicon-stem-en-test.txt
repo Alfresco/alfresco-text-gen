@@ -1,0 +1,15 @@
+# Header ..
+	woof	Uncl	:	100	0	0.00	
+	banana	Uncl	:	20	0	0.00
+	go*	Uncl	:	10	0	0.00
+	no~	Uncl	:	10	0	0.00
+	's	Uncl	:	10	0	0.00
+	varient	Uncl	%	40	0	0.00
+	@	@	one	20#	0	0.00
+	@	@	two	20#	0	0.00
+	nos	Uncl	%	40	0	0.00
+	@	@	no~	20	0	0.00
+	@	@	'n	10	0	0.00
+	@	@	no*	10	0	0.00
+	tree/sponge	Uncl	:	20	0	0.00
+	

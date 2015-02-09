@@ -18,8 +18,8 @@
  */
 package org.alfresco.textgen;
 
+import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Locale;
 
 /**
@@ -41,8 +41,9 @@ public interface RandomTextProvider
      * @param strings - an optional array of strings. The first will be in 100% of streams generated, the next 10%, the next 1% etc.
      *                  Null values will be skipped, so you could add a fixed word to 10% and 0.1% of documents using ...., null, "10", null, ".1")
      * @return
+     * @throws IOException 
      */
-    public InputStream getInputStream(Locale locale, long seed, long length, String...strings);
+    public InputStream getInputStream(Locale locale, long seed, long length, String...strings) throws IOException;
     
     /**
      * Generate a query string that exactly matches the specific random content in some way
