@@ -103,6 +103,59 @@ public class TextGeneratorTest
     }
     
     @Test
+    public void queryStemEnTest() throws IOException
+    {
+        TextGenerator tg = new TextGenerator( "org/alfresco/textgen/lexicon-stem-en-test.txt");
+        
+        for(int j = 0; j < 100; j++)
+        {
+            InputStream is =  tg.getInputStream(Locale.ENGLISH, j, 2000);
+            String content = getString(is);
+
+            int end = 0;
+            for(int i = 1; i< 50; i++)
+            {
+                System.out.println("At seed "+j + " size "+i);
+                end = content.indexOf(" ", end+1);
+                assertEquals(content.subSequence(0, end), tg.generateQueryString(Locale.ENGLISH, j, i, i));
+            }
+          
+           
+
+            for(int i = 0; i < 50; i++)
+            {
+                System.out.println("At seed "+j + " size "+i);
+                assertTrue(content.contains(tg.generateQueryString(Locale.ENGLISH, j, i, 50)));
+            }
+        }
+    }
+    
+    @Test
+    public void corpusQueryStemEnTest() throws IOException
+    {
+        TextGenerator tg = new TextGenerator( "org/alfresco/textgen/lexicon-stem-en-test.txt");
+        assertEquals("banana", tg.generateQueryString(Locale.ENGLISH, 1, 20e-6));
+        assertEquals("go no", tg.generateQueryString(Locale.ENGLISH, 2, 1e-10));   
+    }
+    
+    @Test
+    public void corpusQueryStemEn() throws IOException
+    {
+        TextGenerator tg = new TextGenerator( "org/alfresco/textgen/lexicon-stem-en.txt");
+        assertEquals("1950s", tg.generateQueryString(Locale.ENGLISH, 1, 20e-6));
+        assertEquals("1992", tg.generateQueryString(Locale.ENGLISH, 1, 100e-6));
+        assertEquals("get way", tg.generateQueryString(Locale.ENGLISH, 2, 1e-6));
+        assertEquals("as do", tg.generateQueryString(Locale.ENGLISH, 2, 10e-6));
+        assertEquals("had they", tg.generateQueryString(Locale.ENGLISH, 2, 20e-6));
+        assertEquals("is to", tg.generateQueryString(Locale.ENGLISH, 2, 100e-6));
+        assertEquals("is to was", tg.generateQueryString(Locale.ENGLISH, 3, 1e-6));
+        assertEquals("not this but", tg.generateQueryString(Locale.ENGLISH, 3, 1e-7));
+        assertEquals("said who one", tg.generateQueryString(Locale.ENGLISH, 3, 1e-8));
+        assertEquals("get way one", tg.generateQueryString(Locale.ENGLISH, 3, 1e-9));
+        assertEquals("children always four", tg.generateQueryString(Locale.ENGLISH, 3, 1e-10));
+    }
+    
+    @Test
     public void generateStemEnTestDiffer() throws IOException
     {
         TextGenerator tg = new TextGenerator( "org/alfresco/textgen/lexicon-stem-en-test.txt");
@@ -149,7 +202,10 @@ public class TextGeneratorTest
         }
         long end = System.nanoTime();
         assertEquals(count, 10*1024*1024);
-        assertTrue(end-start < 10000000000L);
+        assertTrue("took "+(end-start), end-start < 1200000000L);
        
     }
+    
+    
+    
 }

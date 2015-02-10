@@ -61,9 +61,9 @@ public interface RandomTextProvider
      * 
      * @param locale - the locale for the generated text
      * @param words - the number of words required in the query string
-     * @param approximateFrequencyPerMillionWords
+     * @param approximateFrequency
      * @return
      */
-    public String geneareQueryString(Locale locale, int words, int approximateFrequencyPerMillionWords);
+    public String generateQueryString(Locale locale, int words, double approximateFrequency);
     
 }

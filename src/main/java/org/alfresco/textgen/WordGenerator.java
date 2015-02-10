@@ -20,7 +20,10 @@ package org.alfresco.textgen;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.NavigableSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Select a word basd on cumulative frequencey
@@ -39,6 +42,8 @@ public class WordGenerator
     long[] cumulativeFrequencies;
     
     String[] words;
+    
+    TreeSet<WordAndFrequency> wandf = new TreeSet<WordAndFrequency>();
     
     public WordGenerator()
     {
@@ -67,6 +72,7 @@ public class WordGenerator
         cumulativeFrequency += frequency;
         cumulativeFrequencies[nextPosition] = cumulativeFrequency;
         words[nextPosition++] = word;
+        wandf.add(new WordAndFrequency(word, frequency));
     }
 
     /**
@@ -144,5 +150,69 @@ public class WordGenerator
             wordSet.add(words[i]);
         }
         return wordSet;
+    }
+    
+    public String get(int words, double approximateFrequency)
+    {
+      
+        long hunt = (long)(Math.pow(approximateFrequency*1.02, 1d/words) * 1000000);
+        
+        StringBuffer buffer = new StringBuffer();
+        int count = 0;
+        double actualFrequency = 1.0d;
+        NavigableSet<WordAndFrequency> set = wandf.headSet(new WordAndFrequency("", hunt), true);
+        for(Iterator<WordAndFrequency> it = set.descendingIterator() ; it.hasNext() && count < words; /**/)
+        {
+            WordAndFrequency wandf = it.next();
+            if(buffer.length() > 0)
+            {
+                buffer.append(" ");
+            }
+            buffer.append(wandf.word);
+            actualFrequency *= (wandf.frequencyPerMillion / 1000000d);
+            count++;
+        }
+        
+        double ratio = approximateFrequency/actualFrequency;
+        if((ratio > 2) || (ratio < 0.5))
+        {
+            throw new IllegalStateException("No simple frequency series available wanted "+approximateFrequency + " found "+actualFrequency);
+        }
+        
+        return buffer.toString();
+        
+        
+    }
+    
+    private static class WordAndFrequency implements Comparable<WordAndFrequency>
+    {
+        String word;
+        
+        long frequencyPerMillion;
+
+        /**
+         * @param word2
+         * @param frequency
+         */
+        public WordAndFrequency(String word, long frequencyPer10million)
+        {
+            this.word = word;
+            this.frequencyPerMillion = frequencyPer10million;
+        }
+
+        /* (non-Javadoc)
+         * @see java.lang.Comparable#compareTo(java.lang.Object)
+         */
+        public int compareTo(WordAndFrequency other)
+        {
+            if(this.frequencyPerMillion == other.frequencyPerMillion)
+            {
+                return other.word.compareTo(this.word);
+            }
+            else
+            {
+                return (int)(this.frequencyPerMillion - other.frequencyPerMillion);
+            }
+        }
     }
 }

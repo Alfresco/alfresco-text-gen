@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Locale;
+import java.util.Random;
 
 import org.springframework.core.io.ClassPathResource;
 
@@ -153,17 +154,46 @@ public class TextGenerator implements RandomTextProvider
      */
     public String generateQueryString(Locale locale, long seed, int words, int wordLimit)
     {
-        // TODO Auto-generated method stub
-        return null;
+        if(wordLimit < words)
+        {
+            throw new IllegalStateException();
+        }
+   
+        Random random = new Random();
+        random.setSeed(seed);
+     
+        int start = 0;
+        if(wordLimit > words)
+        {
+            start =  random.nextInt(wordLimit - words);
+        }
+        
+        random.setSeed(seed);
+       
+        for(int i = 0; i < start; i++)
+        {
+            random.nextDouble();
+        }
+        
+        StringBuffer buffer = new StringBuffer();
+        for(int i = 0; i < words; i++)
+        {
+            String word = wordGenerator.getWord(random.nextDouble());
+            if(buffer.length() > 0)
+            {
+                buffer.append(" ");
+            }
+            buffer.append(word);
+        }
+        return buffer.toString();
     }
 
     /* (non-Javadoc)
      * @see org.alfresco.textgen.RandomTextProvider#geneareQueryString(java.util.Locale, int, int)
      */
-    public String geneareQueryString(Locale locale, int words, int approximateFrequencyPerMillionWords)
+    public String generateQueryString(Locale locale, int words, double approximateFrequency)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return wordGenerator.get(words, approximateFrequency);
     }
 
     /**
