@@ -65,6 +65,7 @@ public class TextGeneratorTest
     }
     
     
+    @SuppressWarnings("unused")
     @Test (expected=IllegalStateException.class)
     public void generateStemEnTestShort() throws IOException
     {
@@ -194,6 +195,7 @@ public class TextGeneratorTest
         long start = System.nanoTime();
         InputStream is = tg.getInputStream(Locale.ENGLISH, 0, 10*1024*1024);
         InputStreamReader reader = new InputStreamReader(is, "UTF-8");
+        @SuppressWarnings("unused")
         int current = -1;
         int count = 0;
         while( (current = reader.read()) != -1)
