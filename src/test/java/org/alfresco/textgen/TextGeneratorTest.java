@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2014 Alfresco Software Limited.
+ * Copyright (C) 2005-2015 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -115,7 +115,7 @@ public class TextGeneratorTest
             int end = 0;
             for(int i = 1; i< 50; i++)
             {
-                System.out.println("At seed "+j + " size "+i);
+//                System.out.println("At seed "+j + " size "+i);
                 end = content.indexOf(" ", end+1);
                 assertEquals(content.subSequence(0, end), tg.generateQueryString(Locale.ENGLISH, j, i, i));
             }
@@ -124,7 +124,7 @@ public class TextGeneratorTest
 
             for(int i = 0; i < 50; i++)
             {
-                System.out.println("At seed "+j + " size "+i);
+//                System.out.println("At seed "+j + " size "+i);
                 assertTrue(content.contains(tg.generateQueryString(Locale.ENGLISH, j, i, 50)));
             }
         }
