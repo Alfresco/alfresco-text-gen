@@ -41,13 +41,13 @@ public class TextGeneratorTest
     @Test (expected=RuntimeException.class)
     public void configLoadFail()
     {
-        new TextGenerator("org/alfresco/textgen/lexicon-en.txt");
+        new TextGenerator("alfresco/textgen/lexicon-en.txt");
     }
     
     @Test
     public void configLoadStemEnTest() throws IOException
     {
-        TextGenerator tg = new TextGenerator( "org/alfresco/textgen/lexicon-stem-en-test.txt");
+        TextGenerator tg = new TextGenerator( "alfresco/textgen/lexicon-stem-en-test.txt");
         assertEquals(7, tg.getWordGenerator().getWordCount());
         Set<String> words = tg.getWordGenerator().getWordSet();
         assertTrue(words.contains("woof"));
@@ -68,14 +68,14 @@ public class TextGeneratorTest
     @Test (expected=IllegalStateException.class)
     public void generateStemEnTestShort() throws IOException
     {
-        TextGenerator tg = new TextGenerator( "org/alfresco/textgen/lexicon-stem-en-test.txt");
+        TextGenerator tg = new TextGenerator( "alfresco/textgen/lexicon-stem-en-test.txt");
         InputStream is =  tg.getInputStream(0, 2, "P100.00", "P010.00", "P001.00");
     }
         
     @Test
     public void generateStemEnTestFixedonly() throws IOException
     {
-        TextGenerator tg = new TextGenerator( "org/alfresco/textgen/lexicon-stem-en-test.txt");
+        TextGenerator tg = new TextGenerator( "alfresco/textgen/lexicon-stem-en-test.txt");
         InputStream is =  tg.getInputStream(0, 7, "P100.00", "P010.00", "P001.00");
         assertEquals("P100.00", getString(is));
     }
@@ -95,7 +95,7 @@ public class TextGeneratorTest
     @Test
     public void generateStemEnTest() throws IOException
     {
-        TextGenerator tg = new TextGenerator( "org/alfresco/textgen/lexicon-stem-en-test.txt");
+        TextGenerator tg = new TextGenerator( "alfresco/textgen/lexicon-stem-en-test.txt");
         InputStream is =  tg.getInputStream(0, 200, "P100.00", "P010.00", "P001.00");
         assertEquals(
                 "P100.00 one woof go banana banana woof woof tree no tree woof woof woof woof banana tree "
@@ -106,7 +106,7 @@ public class TextGeneratorTest
     @Test
     public void queryStemEnTest() throws IOException
     {
-        TextGenerator tg = new TextGenerator( "org/alfresco/textgen/lexicon-stem-en-test.txt");
+        TextGenerator tg = new TextGenerator( "alfresco/textgen/lexicon-stem-en-test.txt");
         
         for(int j = 0; j < 100; j++)
         {
@@ -132,7 +132,7 @@ public class TextGeneratorTest
     @Test
     public void corpusQueryStemEnTest() throws IOException
     {
-        TextGenerator tg = new TextGenerator( "org/alfresco/textgen/lexicon-stem-en-test.txt");
+        TextGenerator tg = new TextGenerator( "alfresco/textgen/lexicon-stem-en-test.txt");
         assertEquals("banana", tg.generateQueryString(1, 20e-6));
         assertEquals("go no", tg.generateQueryString(2, 1e-10));   
     }
@@ -140,7 +140,7 @@ public class TextGeneratorTest
     @Test
     public void corpusQueryStemEn() throws IOException
     {
-        TextGenerator tg = new TextGenerator( "org/alfresco/textgen/lexicon-stem-en.txt");
+        TextGenerator tg = new TextGenerator( "alfresco/textgen/lexicon-stem-en.txt");
         assertEquals("1950s", tg.generateQueryString(1, 20e-6));
         assertEquals("1992", tg.generateQueryString(1, 100e-6));
         assertEquals("get way", tg.generateQueryString(2, 1e-6));
@@ -157,7 +157,7 @@ public class TextGeneratorTest
     @Test
     public void generateStemEnTestDiffer() throws IOException
     {
-        TextGenerator tg = new TextGenerator( "org/alfresco/textgen/lexicon-stem-en-test.txt");
+        TextGenerator tg = new TextGenerator( "alfresco/textgen/lexicon-stem-en-test.txt");
         InputStream is0 =  tg.getInputStream(0, 200, "P100.00", "P010.00", "P001.00");
         InputStream is1 =  tg.getInputStream(1, 200, "P100.00", "P010.00", "P001.00");
         assertNotEquals(getString(is0), getString(is1));
@@ -167,7 +167,7 @@ public class TextGeneratorTest
     @Test
     public void configLoadStem() throws IOException
     {
-        TextGenerator tg = new TextGenerator("org/alfresco/textgen/lexicon-stem-en.txt");
+        TextGenerator tg = new TextGenerator("alfresco/textgen/lexicon-stem-en.txt");
         assertEquals(13339, tg.getWordGenerator().getWordCount());
         Set<String> words = tg.getWordGenerator().getWordSet();
         assertTrue(!words.contains("'s"));
@@ -178,7 +178,7 @@ public class TextGeneratorTest
     @Test
     public void generateStem() throws IOException
     {
-        TextGenerator tg = new TextGenerator("org/alfresco/textgen/lexicon-stem-en.txt");
+        TextGenerator tg = new TextGenerator("alfresco/textgen/lexicon-stem-en.txt");
         InputStream is = tg.getInputStream(0, 1024);
         assertEquals(1024, getString(is).length());
         
@@ -189,7 +189,7 @@ public class TextGeneratorTest
     @Test
     public void generateStem10M_5second() throws IOException
     {
-        TextGenerator tg = new TextGenerator("org/alfresco/textgen/lexicon-stem-en.txt");
+        TextGenerator tg = new TextGenerator("alfresco/textgen/lexicon-stem-en.txt");
         long start = System.nanoTime();
         InputStream is = tg.getInputStream(0, 10*1024*1024);
         InputStreamReader reader = new InputStreamReader(is, "UTF-8");
