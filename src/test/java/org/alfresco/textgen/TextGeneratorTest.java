@@ -98,9 +98,10 @@ public class TextGeneratorTest
     {
         TextGenerator tg = new TextGenerator( "org/alfresco/textgen/lexicon-stem-en-test.txt");
         InputStream is =  tg.getInputStream(Locale.ENGLISH, 0, 200, "P100.00", "P010.00", "P001.00");
-        assertEquals("P100.00 one woof go banana banana woof woof tree no tree woof woof woof woof banana tree woof go woof two tree woof one one two two banana no woof woof tree one one woof woof woof woof woof woof no   "
-   
-, getString(is));
+        assertEquals(
+                "P100.00 one woof go banana banana woof woof tree no tree woof woof woof woof banana tree "
+                + "woof go woof two tree woof one one two two banana no woof woof tree one one woof woof woof woof woof woof no   ",
+                getString(is));
     }
     
     @Test
@@ -116,7 +117,6 @@ public class TextGeneratorTest
             int end = 0;
             for(int i = 1; i< 50; i++)
             {
-//                System.out.println("At seed "+j + " size "+i);
                 end = content.indexOf(" ", end+1);
                 assertEquals(content.subSequence(0, end), tg.generateQueryString(Locale.ENGLISH, j, i, i));
             }
@@ -125,7 +125,6 @@ public class TextGeneratorTest
 
             for(int i = 0; i < 50; i++)
             {
-//                System.out.println("At seed "+j + " size "+i);
                 assertTrue(content.contains(tg.generateQueryString(Locale.ENGLISH, j, i, 50)));
             }
         }
@@ -189,7 +188,7 @@ public class TextGeneratorTest
     }
     
     @Test
-    public void generateStem10M_second() throws IOException
+    public void generateStem10M_5second() throws IOException
     {
         TextGenerator tg = new TextGenerator("org/alfresco/textgen/lexicon-stem-en.txt");
         long start = System.nanoTime();
@@ -204,10 +203,7 @@ public class TextGeneratorTest
         }
         long end = System.nanoTime();
         assertEquals(count, 10*1024*1024);
-        assertTrue("took "+(end-start), end-start < 1200000000L);
+        assertTrue("took "+(end-start), end-start < 5000000000L);
        
     }
-    
-    
-    
 }
