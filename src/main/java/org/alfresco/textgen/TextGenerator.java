@@ -133,13 +133,13 @@ public class TextGenerator implements RandomTextProvider
     }
 
     @Override
-    public InputStream getInputStream(Locale locale, long seed, long length, String... strings) throws IOException
+    public InputStream getInputStream(long seed, long length, String... strings) throws IOException
     {
         return new RandomTextInputStream(wordGenerator, seed, length, strings);
     }
 
     @Override
-    public String generateQueryString(Locale locale, long seed, int words, int wordLimit)
+    public String generateQueryString(long seed, int words, int wordLimit)
     {
         if(wordLimit < words)
         {
@@ -176,7 +176,7 @@ public class TextGenerator implements RandomTextProvider
     }
 
     @Override
-    public String generateQueryString(Locale locale, int words, double approximateFrequency)
+    public String generateQueryString(int words, double approximateFrequency)
     {
         return wordGenerator.get(words, approximateFrequency);
     }
