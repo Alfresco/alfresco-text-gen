@@ -33,7 +33,6 @@ import org.springframework.core.io.ClassPathResource;
  */
 public class TextGenerator implements RandomTextProvider
 {
-    
     WordGenerator wordGenerator = new WordGenerator();
     
     public TextGenerator(String configPath)
@@ -121,10 +120,6 @@ public class TextGenerator implements RandomTextProvider
         }
     }
 
-    /**
-     * @param mode
-     * @return
-     */
     private String splitAlternates(String word)
     {
         String[] alternates = word.split("/");
@@ -132,26 +127,18 @@ public class TextGenerator implements RandomTextProvider
                
     }
 
-    /**
-     * @param mode
-     * @return
-     */
     private boolean ignore(String word)
     {
         return word.contains("~") || word.contains("'");
     }
 
-    /* (non-Javadoc)
-     * @see org.alfresco.textgen.RandomTextProvider#getInputStream(java.util.Locale, long, long, java.lang.String[])
-     */
+    @Override
     public InputStream getInputStream(Locale locale, long seed, long length, String... strings) throws IOException
     {
         return new RandomTextInputStream(wordGenerator, seed, length, strings);
     }
 
-    /* (non-Javadoc)
-     * @see org.alfresco.textgen.RandomTextProvider#generateQueryString(java.util.Locale, long, int, int)
-     */
+    @Override
     public String generateQueryString(Locale locale, long seed, int words, int wordLimit)
     {
         if(wordLimit < words)
@@ -188,9 +175,7 @@ public class TextGenerator implements RandomTextProvider
         return buffer.toString();
     }
 
-    /* (non-Javadoc)
-     * @see org.alfresco.textgen.RandomTextProvider#geneareQueryString(java.util.Locale, int, int)
-     */
+    @Override
     public String generateQueryString(Locale locale, int words, double approximateFrequency)
     {
         return wordGenerator.get(words, approximateFrequency);
@@ -203,6 +188,4 @@ public class TextGenerator implements RandomTextProvider
     {
         return wordGenerator;
     }
-    
-    
 }

@@ -29,7 +29,7 @@ import java.util.TreeSet;
  * Select a word basd on cumulative frequencey
  * 
  * @author Andy
- *
+ * @since 1.0
  */
 public class WordGenerator 
 {
@@ -60,7 +60,6 @@ public class WordGenerator
     /**
      * Add a word.
      *  
-     * @param word
      * @param frequency - per million words
      */
     public void addWord(String word, long frequency)
@@ -77,9 +76,6 @@ public class WordGenerator
 
     /**
      * Get a word from the distribution based on a uniform distribution between 0 and 1 
-     * 
-     * @param value
-     * @return
      */
     public String getWord(double value)
     {
@@ -190,19 +186,12 @@ public class WordGenerator
         
         long frequencyPerMillion;
 
-        /**
-         * @param word2
-         * @param frequency
-         */
         public WordAndFrequency(String word, long frequencyPer10million)
         {
             this.word = word;
             this.frequencyPerMillion = frequencyPer10million;
         }
 
-        /* (non-Javadoc)
-         * @see java.lang.Comparable#compareTo(java.lang.Object)
-         */
         public int compareTo(WordAndFrequency other)
         {
             if(this.frequencyPerMillion == other.frequencyPerMillion)

@@ -26,31 +26,18 @@ import java.util.Random;
  * An output stream of random words from a word generator.
  * 
  * @author Andy
- *
+ * @since 1.0
  */
 public class RandomTextInputStream extends InputStream
 {
-    int bytePosition = 0;
-    
-    long charactersSoFar;
-    
+    private int bytePosition = 0;
+    private long charactersSoFar;
     private WordGenerator wg;
-    
     private long length;
+    private byte[] currentBytes;
+    private Random random = new Random();
+    private boolean pad = false;
     
-    byte[] currentBytes;
-    
-    Random random = new Random();
-    
-    boolean pad = false;
-    
-    /**
-     * @param wg
-     * @param seed
-     * @param length
-     * @param strings
-     * @throws IOException 
-     */
     public RandomTextInputStream(WordGenerator wg, long seed, long length, String[] strings) throws IOException
     {
         this.wg = wg;
@@ -98,9 +85,6 @@ public class RandomTextInputStream extends InputStream
         random.setSeed(seed);
     }
 
-    /* (non-Javadoc)
-     * @see java.io.InputStream#read()
-     */
     @Override
     public int read() throws IOException
     {
@@ -121,10 +105,6 @@ public class RandomTextInputStream extends InputStream
         }
     }
 
-    /**
-     * @throws IOException 
-     * 
-     */
     private void getMoreBytes() throws IOException
     {
         
@@ -168,10 +148,6 @@ public class RandomTextInputStream extends InputStream
         }
     }
 
-    /**
-     * @param l
-     * @return
-     */
     private String emptyString(int length)
     {
         StringBuffer buffer = new StringBuffer(length);
@@ -181,5 +157,4 @@ public class RandomTextInputStream extends InputStream
         }
         return buffer.toString();
     }
-
 }

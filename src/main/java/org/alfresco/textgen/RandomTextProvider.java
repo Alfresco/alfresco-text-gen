@@ -27,7 +27,7 @@ import java.util.Locale;
  * against this generated content. 
  * 
  * @author Andy Hind
- *
+ * @since 1.0
  */
 public interface RandomTextProvider
 {
@@ -40,8 +40,6 @@ public interface RandomTextProvider
      * @param length - the length of content required in bytes
      * @param strings - an optional array of strings. The first will be in 100% of streams generated, the next 10%, the next 1% etc.
      *                  Null values will be skipped, so you could add a fixed word to 10% and 0.1% of documents using ...., null, "10", null, ".1")
-     * @return
-     * @throws IOException 
      */
     public InputStream getInputStream(Locale locale, long seed, long length, String...strings) throws IOException;
     
@@ -52,7 +50,6 @@ public interface RandomTextProvider
      * @param seed - the initial seed for the state of the generator - to give repeatable content
      * @param words - the number of words required in the query string
      * @param wordLimit - the number of words to consider from the generated stream.
-     * @return
      */
     public String generateQueryString(Locale locale, long seed, int words, int wordLimit);
     
@@ -62,7 +59,6 @@ public interface RandomTextProvider
      * @param locale - the locale for the generated text
      * @param words - the number of words required in the query string
      * @param approximateFrequency
-     * @return
      */
     public String generateQueryString(Locale locale, int words, double approximateFrequency);
     
