@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.alfresco</groupId>
     <artifactId>alfresco-text-gen</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -29,7 +29,8 @@
     <scm>
         <url>https://github.com/AlfrescoBenchmark/alfresco-text-gen</url>
         <connection>scm:git:https://github.com/AlfrescoBenchmark/alfresco-text-gen.git</connection>
-     </scm>
+        <tag>V1.0</tag>
+    </scm>
     
     <distributionManagement>
         <repository>
