@@ -94,8 +94,12 @@ public class RandomTextInputStream extends InputStream
         }
       
         getMoreBytes();
+        if (bytePosition > 0)
+        {
+            throw new IllegalStateException("Byte position should be set back to zero for more bytes.");
+        }
         
-        if(currentBytes == null)
+        if (currentBytes == null || currentBytes.length == 0)
         {
             return -1;
         }
@@ -105,10 +109,14 @@ public class RandomTextInputStream extends InputStream
         }
     }
 
+    /**
+     * Fill up with more bytes (if there are any required) and <b>always</b> reset the byte position.
+     */
     private void getMoreBytes() throws IOException
     {
+        bytePosition = 0;
         
-        if(charactersSoFar == length)
+        if (charactersSoFar == length)
         {
             currentBytes = null;
         }
@@ -135,13 +143,11 @@ public class RandomTextInputStream extends InputStream
             {
                 // pad with spaces...
                 currentBytes = emptyString((int)(length - charactersSoFar)).getBytes("UTF-8");
-                bytePosition = 0;
                 charactersSoFar += length - charactersSoFar;
             }
             else
             {
                 currentBytes = buffer.toString().getBytes("UTF-8");
-                bytePosition = 0;
                 charactersSoFar += buffer.length();
             }
             

@@ -120,12 +120,62 @@ public class TextGeneratorTest
                 assertEquals(content.subSequence(0, end), tg.generateQueryString(j, i, i));
             }
           
-           
-
             for(int i = 0; i < 50; i++)
             {
                 assertTrue(content.contains(tg.generateQueryString(j, i, 50)));
             }
+        }
+    }
+    
+    /**
+     * Ensure that the text generation can grow from zero to 256 bytes i.e. we don't hit a snag at random points
+     * in the size choice
+     */
+    @Test
+    public void increasingLengthTest() throws IOException
+    {
+        TextGenerator tg = new TextGenerator( "alfresco/textgen/lexicon-stem-en-test.txt");
+        // A bunch of seed values to test
+        for (int i = 0; i < 1000; i++)
+        {
+            // Test for each size
+            for (long size = 0; size < 256; size++)
+            {
+                long seed = (long) (Math.random() * 10000L);
+                InputStream is =  tg.getInputStream(seed, size);
+                try
+                {
+                    String content = getString(is);
+                    assertEquals("Content length not correct: ", size, content.getBytes("UTF-8").length);
+                }
+                finally
+                {
+                    try { is.close(); } catch (Exception e) {}
+                }
+            }
+        }
+    }
+    
+    /**
+     * Make sure the concrete streams are not shared
+     */
+    @Test
+    public void uniqueStreamTest() throws IOException
+    {
+        TextGenerator tg = new TextGenerator( "alfresco/textgen/lexicon-stem-en-test.txt");
+        InputStream isOne = tg.getInputStream(1L, 256L);
+        InputStream isTwo = tg.getInputStream(1L, 256L);
+        assertTrue("Stream instances must be new and not share any resources: ", isOne != isTwo);
+        try
+        {
+            String strOne = getString(isOne);
+            String strTwo = getString(isTwo);
+            assertEquals(strOne, strTwo);
+        }
+        finally
+        {
+            try { isOne.close(); } catch (Exception e) {}
+            try { isTwo.close(); } catch (Exception e) {}
         }
     }
     
