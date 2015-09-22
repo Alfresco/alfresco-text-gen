@@ -22,6 +22,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.attribute.AclEntry.Builder;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
@@ -202,6 +204,59 @@ public class TextGenerator implements RandomTextProvider
     public WordGenerator getWordGenerator()
     {
         return wordGenerator;
+    }
+    
+    public void generateQueries(String field, int min_fpmw, int max_fpmw, int min_words, int max_words, int count)
+    {
+        Random random = new Random();
+        random.setSeed(0);
+       
+      
+        for(int j = 0; j < count; j++)
+        {
+            int words  = min_words + random.nextInt(max_words - min_words);
+            StringBuilder builder = new StringBuilder();
+            if(field != null)
+            {
+                builder.append(field).append(":\"");
+            }
+            for(int i = 0; i < words; i++)
+            {
+                int fpmw = min_fpmw + random.nextInt(max_fpmw - min_fpmw);
+                ArrayList<String> choice = wordGenerator.getWordsLessFrequent(fpmw);
+                if(builder.length() > 0)
+                {
+                    builder.append(" ");
+                }
+                builder.append(getSingleWord(choice, random));
+                
+            }
+            if(field != null)
+            {
+                builder.append("\"");
+            }
+            System.out.println(builder.toString());
+        }   
+       
+    }
+    
+    private String getSingleWord(ArrayList<String> choice, Random random)
+    {
+        String candidate;
+        NEXT : for(int i = 0; i < 100000; i++)
+        {
+            candidate = choice.get(random.nextInt(choice.size()));
+            for(int j = 0; j < candidate.length(); j++)
+            {
+                int cp = candidate.codePointAt(j);
+                if(!Character.isAlphabetic(cp) && !Character.isDigit(cp))
+                {
+                    continue NEXT;
+                }
+            }
+            return candidate;
+        }
+        return "";
     }
     
     

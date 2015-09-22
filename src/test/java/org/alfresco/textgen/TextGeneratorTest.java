@@ -203,9 +203,16 @@ public class TextGeneratorTest
         long end = System.nanoTime();
         assertEquals(count, 10*1024*1024);
         assertTrue("took "+(end-start), end-start < 1200000000L);
+        
+        tg.getWordGenerator().printWords();
        
     }
     
-    
+    @Test
+    public void generateQueries() throws IOException
+    {
+        TextGenerator tg = new TextGenerator("org/alfresco/textgen/lexicon-stem-en.txt");
+        tg.generateQueries(null, 10, 20, 1, 4, 4096);
+    }
     
 }

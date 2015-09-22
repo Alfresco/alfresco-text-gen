@@ -18,6 +18,7 @@
  */
 package org.alfresco.textgen;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -152,6 +153,14 @@ public class WordGenerator
         return wordSet;
     }
     
+    public void printWords()
+    {
+        for(WordAndFrequency thing : wandf)
+        {
+            System.out.println(thing.word + ",   "+thing.frequencyPerMillion);
+        }
+    }
+    
     public String get(int words, double approximateFrequency)
     {
       
@@ -182,6 +191,44 @@ public class WordGenerator
         return buffer.toString();
         
         
+    }
+    
+    public ArrayList<String> getWords(long fpmw)
+    {
+        ArrayList<String> equals = new ArrayList<String>();
+        NavigableSet<WordAndFrequency> set = wandf.headSet(new WordAndFrequency("", fpmw), true);
+        for(Iterator<WordAndFrequency> it = set.descendingIterator() ; it.hasNext(); )
+        {
+            WordAndFrequency wandf = it.next();
+            if(wandf.frequencyPerMillion == fpmw)
+            {
+                equals.add(wandf.word);
+            }
+            else
+            {
+                break;
+            }
+        }
+        return equals;
+    }
+    
+    public ArrayList<String> getWordsLessFrequent(long fpmw)
+    {
+        ArrayList<String> equals = new ArrayList<String>();
+        NavigableSet<WordAndFrequency> set = wandf.headSet(new WordAndFrequency("", fpmw), true);
+        for(Iterator<WordAndFrequency> it = set.descendingIterator() ; it.hasNext(); )
+        {
+            WordAndFrequency wandf = it.next();
+            if(wandf.frequencyPerMillion <= fpmw)
+            {
+                equals.add(wandf.word);
+            }
+            else
+            {
+                break;
+            }
+        }
+        return equals;
     }
     
     private static class WordAndFrequency implements Comparable<WordAndFrequency>
