@@ -71,7 +71,7 @@ public class TextGeneratorTest
         TextGenerator tg = new TextGenerator( "alfresco/textgen/lexicon-stem-en-test.txt");
         InputStream is =  tg.getInputStream(0, 2, "P100.00", "P010.00", "P001.00");
     }
-        
+    
     @Test
     public void generateStemEnTestFixedonly() throws IOException
     {
@@ -119,7 +119,7 @@ public class TextGeneratorTest
                 end = content.indexOf(" ", end+1);
                 assertEquals(content.subSequence(0, end), tg.generateQueryString(j, i, i));
             }
-          
+            
             for(int i = 0; i < 50; i++)
             {
                 assertTrue(content.contains(tg.generateQueryString(j, i, 50)));
@@ -134,7 +134,7 @@ public class TextGeneratorTest
     @Test
     public void increasingLengthTest() throws IOException
     {
-        TextGenerator tg = new TextGenerator( "alfresco/textgen/lexicon-stem-en-test.txt");
+        TextGenerator tg = new TextGenerator("alfresco/textgen/lexicon-stem-en-test.txt");
         // A bunch of seed values to test
         for (int i = 0; i < 1000; i++)
         {
@@ -156,6 +156,25 @@ public class TextGeneratorTest
         }
     }
     
+    /**
+     * Ensure that the text generation can cope when provided with a word that has more bytes than characters.
+     */
+    @Test
+    public void nonASCIICharactersTest() throws IOException
+    {
+        TextGenerator tg = new TextGenerator("alfresco/textgen/lexicon-stem-en-test.txt");
+        InputStream is =  tg.getInputStream(0, 128L, "\u00a3 10.00");
+        try
+        {
+            String content = getString(is);
+            assertEquals("Content length not correct: ", 128, content.getBytes("UTF-8").length);
+        }
+        finally
+        {
+            try { is.close(); } catch (Exception e) {}
+        }
+    }
+
     /**
      * Make sure the concrete streams are not shared
      */
@@ -184,7 +203,7 @@ public class TextGeneratorTest
     {
         TextGenerator tg = new TextGenerator( "alfresco/textgen/lexicon-stem-en-test.txt");
         assertEquals("banana", tg.generateQueryString(1, 20e-6));
-        assertEquals("go no", tg.generateQueryString(2, 1e-10));   
+        assertEquals("go no", tg.generateQueryString(2, 1e-10));
     }
     
     @Test
@@ -242,20 +261,12 @@ public class TextGeneratorTest
         TextGenerator tg = new TextGenerator("alfresco/textgen/lexicon-stem-en.txt");
         long start = System.nanoTime();
         InputStream is = tg.getInputStream(0, 10*1024*1024);
-        InputStreamReader reader = new InputStreamReader(is, "UTF-8");
-        @SuppressWarnings("unused")
-        int current = -1;
-        int count = 0;
-        while( (current = reader.read()) != -1)
-        {
-            count++;
-        }
+        String s = getString(is);
         long end = System.nanoTime();
-        assertEquals(count, 10*1024*1024);
+        assertEquals(10*1024*1024, s.getBytes("UTF-8").length);
         assertTrue("took "+(end-start), end-start < 5000000000L);
-        
+
         tg.getWordGenerator().printWords();
-       
     }
     
     @Test

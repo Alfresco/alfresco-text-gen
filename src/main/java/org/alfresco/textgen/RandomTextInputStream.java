@@ -31,7 +31,7 @@ import java.util.Random;
 public class RandomTextInputStream extends InputStream
 {
     private int bytePosition = 0;
-    private long charactersSoFar;
+    private long bytesSoFar;
     private WordGenerator wg;
     private long length;
     private byte[] currentBytes;
@@ -71,10 +71,10 @@ public class RandomTextInputStream extends InputStream
             {
                 throw new IllegalStateException("Length "+length+ " is too short for required strings: "+ fixedStrings);
             }
-            charactersSoFar = fixedStrings.length();
+            bytesSoFar = fixedStrings.getBytes("UTF-8").length;
             
             currentBytes = fixedStrings.getBytes("UTF-8");
-      
+            
             pad = true;
         }
         else
@@ -92,7 +92,7 @@ public class RandomTextInputStream extends InputStream
         {
             return currentBytes[bytePosition++];
         }
-      
+        
         getMoreBytes();
         if (bytePosition > 0)
         {
@@ -116,41 +116,43 @@ public class RandomTextInputStream extends InputStream
     {
         bytePosition = 0;
         
-        if (charactersSoFar == length)
+        if (bytesSoFar == length)
         {
             currentBytes = null;
         }
         else
         {
             StringBuffer buffer = new StringBuffer();
+            int bufferByteCount = 0;
             if(pad)
             {
                 buffer.append(" ");
+                bufferByteCount++;
             }
             else
             {
                 pad = true;
             }
-          
+            
             String word = wg.getWord(random.nextDouble());
             if(word == null)
             {
                 throw new IOException("Word generation failed");
             }
             buffer.append(word);
+            bufferByteCount += word.getBytes("UTF-8").length;
             
-            if(charactersSoFar + buffer.length() > length)
+            if(bytesSoFar + bufferByteCount > length)
             {
                 // pad with spaces...
-                currentBytes = emptyString((int)(length - charactersSoFar)).getBytes("UTF-8");
-                charactersSoFar += length - charactersSoFar;
+                currentBytes = emptyString((int)(length - bytesSoFar)).getBytes("UTF-8");
+                bytesSoFar += length - bytesSoFar;
             }
             else
             {
                 currentBytes = buffer.toString().getBytes("UTF-8");
-                charactersSoFar += buffer.length();
+                bytesSoFar += bufferByteCount;
             }
-            
         }
     }
 
