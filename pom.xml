@@ -9,7 +9,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.12</junit.version>
-        <spring.version>3.2.10.RELEASE</spring.version>
+        <spring.version>5.0.3.RELEASE</spring.version>
     </properties>
 
     <dependencies>
@@ -25,14 +25,14 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
- 
+
     <scm>
         <url>https://github.com/AlfrescoBenchmark/alfresco-text-gen</url>
         <connection>scm:git:https://github.com/AlfrescoBenchmark/alfresco-text-gen.git</connection>
         <!-- <tag>V1.1</tag> -->
       <tag>HEAD</tag>
   </scm>
-    
+
     <distributionManagement>
         <repository>
             <id>alfresco-internal</id>
