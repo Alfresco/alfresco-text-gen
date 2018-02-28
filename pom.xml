@@ -27,11 +27,11 @@
     </dependencies>
 
     <scm>
-        <url>https://github.com/AlfrescoBenchmark/alfresco-text-gen</url>
-        <connection>scm:git:https://github.com/AlfrescoBenchmark/alfresco-text-gen.git</connection>
-        <!-- <tag>V1.1</tag> -->
-      <tag>HEAD</tag>
-  </scm>
+        <connection>scm:git:git@github.com:Alfresco/alfresco-text-gen.git</connection>
+        <developerConnection>scm:git:git@github.com:Alfresco/alfresco-text-gen.git</developerConnection>
+        <url>https://github.com/Alfresco/alfresco-text-gen</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <distributionManagement>
         <repository>
