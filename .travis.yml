@@ -1,0 +1,20 @@
+# Auto-generated .travis.yml file
+# Generated 2020-11-11 06:41:43 from Bamboo build plan BENCHMARK-BMTEXTGEN
+
+language: java
+
+jvm:
+  - oraclejdk8
+
+dist: xenial
+
+stages:
+  - name: Default Stage
+
+jobs:
+  include:
+    - stage: "Default Stage"
+      name: "Default Job"
+      script:
+        # Build + Deploy
+        - MAVEN_OPTS="-Xmx512m -XX:MaxPermSize=128M" mvn --batch-mode clean deploy sonar:sonar -U
